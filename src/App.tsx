@@ -1,5 +1,6 @@
 import "./App.css";
 import BetForm from "./components/BetForm/BetForm";
+import BetHistory from "./components/BetHistory/BetHistory";
 import BetResultComponent from "./components/BetResult/BetResult";
 import ThemeToggle from "./components/ThemeToggle/ThemeToggle";
 import { useBetCalculator } from "./hooks/useBetCalculator";
@@ -12,6 +13,8 @@ function App() {
     handleSubmit,
     result,
     currencySymbol,
+    history,
+    clearHistory,
   } = useBetCalculator();
   return (
     <div className="page">
@@ -38,7 +41,13 @@ function App() {
               gameType={formData.gameType}
               currencySymbol={currencySymbol}
             />
-            <div className="column"></div>
+            <div className="column">
+              <BetHistory
+                history={history}
+                onClear={clearHistory}
+                currencySymbol={currencySymbol}
+              />
+            </div>
           </div>
         </div>
       </div>
