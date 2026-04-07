@@ -63,6 +63,9 @@
   outline: none;
   box-sizing: border-box;
 }
+input::placeholder {
+  color: hsl(var(--muted-foreground));
+}
 
 .input:focus {
   border-color: hsl(var(--primary));
