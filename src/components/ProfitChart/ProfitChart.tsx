@@ -108,7 +108,7 @@ const ProfitChart = ({
     onCurrencyChange?.(code);
   };
 
-  const data = [...history].reverse().map((entry) => {
+  const data = [...history].reverse().map((entry, index) => {
     const game = GAME_TYPES.find((g) => g.value === entry.gameType);
     const originalCurrency = entry.currency ?? "UAH";
     const convertedProfit = convert(
@@ -117,7 +117,7 @@ const ProfitChart = ({
       activeCurrency,
     );
     return {
-      name: ` ${game?.label ?? entry.gameType}`,
+      name: ` ${game?.label ?? entry.gameType} #${index + 1}`,
       profit: parseFloat(convertedProfit.toFixed(2)),
     };
   });
@@ -135,9 +135,7 @@ const ProfitChart = ({
     <div className={styles.card}>
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <h3 className={styles.heading}>
-            Profit Chart
-          </h3>
+          <h3 className={styles.heading}>Profit Chart</h3>
           <div className={styles.currencySwitch}>
             {CURRENCIES.map((c) => (
               <button
@@ -197,14 +195,14 @@ const ProfitChart = ({
           >
             <CartesianGrid
               vertical={false}
-              strokeDasharray="3 3"
+              strokeDasharray="4 4"
             />
             <XAxis
               dataKey="name"
-              tickLine={false}
-              axisLine={false}
+              tickLine={true}
+              axisLine={true}
               tickMargin={8}
-              tick={{ fontSize: 11 }}
+              tick={{ fontSize: 10 }}
               padding={{ left: 10, right: 10 }}
             />
             <YAxis
@@ -237,7 +235,7 @@ const ProfitChart = ({
                 <stop
                   offset="5%"
                   stopColor="hsl(142, 71%, 45%)"
-                  stopOpacity={0.3}
+                  stopOpacity={0.7}
                 />
                 <stop
                   offset="95%"
