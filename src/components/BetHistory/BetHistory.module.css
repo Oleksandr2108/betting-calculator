@@ -44,6 +44,27 @@
   color: hsl(var(--primary-foreground));
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.currencySelect {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--muted));
+  color: hsl(var(--card-foreground));
+  cursor: pointer;
+  outline: none;
+}
+
+.currencySelect:focus {
+  border-color: hsl(var(--primary));
+}
+
 .clearButton {
   font-size: 0.875rem;
   color: hsl(var(--muted-foreground));

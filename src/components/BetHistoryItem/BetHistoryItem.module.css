@@ -18,10 +18,12 @@
 .icon {
   font-size: 1.25rem;
   flex-shrink: 0;
+  color: hsl(var(--foreground));
 }
 
 .info {
   min-width: 0;
+   text-align: left;
 }
 
 .betLine {
@@ -31,6 +33,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+ 
 }
 
 .date {
@@ -50,9 +53,20 @@
   color: hsl(var(--success));
 }
 
+.converted {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: hsl(var(--primary));
+}
+
 .potentialWin {
   font-size: 0.75rem;
   color: hsl(var(--muted-foreground));
+}
+
+.convertedSmall {
+  color: hsl(var(--primary));
+  opacity: 0.8;
 }
 
 @keyframes slideUp {

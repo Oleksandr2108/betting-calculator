@@ -1,0 +1,46 @@
+.card {
+  background-color: hsl(var(--card));
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border: 1px solid hsl(var(--border));
+  animation: fadeIn 0.4s ease-out;
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 2rem;
+  }
+}
+
+.heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: hsl(var(--card-foreground));
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.headingIcon {
+  width: 2rem;
+  height: 2rem;
+  background: var(--gradient-primary);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: hsl(var(--primary-foreground));
+}
+
+.chartContainer {
+  height: 12rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -26,6 +26,7 @@ export interface HistoryEntry {
   gameType: string;
   potentialWin: number;
   profit: number;
+  currency: string;
 }
 
 export function useBetCalculator() {
@@ -69,7 +70,8 @@ export function useBetCalculator() {
       newErrors.coefficient = "Enter the coefficient";
     else if (coeff < 1.01)
       newErrors.coefficient = "Minimum coefficient is 1.01";
-    else if (coeff > 1000) newErrors.coefficient = "Maximum coefficient is 1000";
+    else if (coeff > 1000)
+      newErrors.coefficient = "Maximum coefficient is 1000";
 
     if (!formData.gameType) newErrors.gameType = "Select game type";
 
@@ -103,6 +105,7 @@ export function useBetCalculator() {
       gameType: formData.gameType,
       potentialWin: result.win,
       profit: result.profit,
+      currency: formData.currency,
     };
 
     setHistory((prev) => [entry, ...prev].slice(0, 5));
