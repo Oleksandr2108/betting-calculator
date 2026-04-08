@@ -17,7 +17,6 @@ const BetHistory = ({ history, onClear }: BetHistoryProps) => {
     <div className={styles.card}>
       <div className={styles.header}>
         <h2 className={styles.heading}>
-          <span className={styles.headingIcon}>3</span>
           Latest bets
         </h2>
         <div className={styles.headerActions}>
