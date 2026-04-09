@@ -7,7 +7,6 @@ import { CURRENCIES } from "../../constants/currencies";
 interface BetHistoryProps {
   history: HistoryEntry[];
   onClear: () => void;
-  currencySymbol: string;
 }
 
 const BetHistory = ({ history, onClear }: BetHistoryProps) => {
@@ -50,7 +49,7 @@ const BetHistory = ({ history, onClear }: BetHistoryProps) => {
       {history.length === 0 ? (
         <div className={styles.placeholder}>
           <p className={styles.placeholderIcon}>📋</p>
-          <p className={styles.placeholderText}>The story is empty</p>
+          <p className={styles.placeholderText}>History is empty</p>
         </div>
       ) : (
         <div className={styles.list}>

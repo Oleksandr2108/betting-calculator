@@ -1,20 +1,12 @@
 import { CURRENCIES } from "../../constants/currencies";
 import { GAME_TYPES } from "../../constants/gameTypes";
 import type { HistoryEntry } from "../../hooks/useBetCalculator";
+import { convertCurrency } from "../../utils/currency";
 import styles from "./BetHistoryItem.module.css";
 
 interface BetHistoryItemProps {
   bet: HistoryEntry;
   displayCurrency: string;
-}
-
-function convert(amount: number, fromCode: string, toCode: string): number {
-  const from = CURRENCIES.find((c) => c.code === fromCode);
-  const to = CURRENCIES.find((c) => c.code === toCode);
-  if (!from || !to) return amount;
-
-  const inUAH = amount / from.rate;
-  return inUAH * to.rate;
 }
 
 const BetHistoryItem = ({ bet, displayCurrency }: BetHistoryItemProps) => {
@@ -28,12 +20,12 @@ const BetHistoryItem = ({ bet, displayCurrency }: BetHistoryItemProps) => {
 
   const needsConversion = originalCurrency !== displayCurrency;
 
-  const convertedProfit = convert(
+  const convertedProfit = convertCurrency(
     bet.profit,
     originalCurrency,
     displayCurrency,
   );
-  const convertedWin = convert(
+  const convertedWin = convertCurrency(
     bet.potentialWin,
     originalCurrency,
     displayCurrency,
@@ -43,7 +35,7 @@ const BetHistoryItem = ({ bet, displayCurrency }: BetHistoryItemProps) => {
     <div className={styles.item}>
       <div className={styles.left}>
         <div className={styles.info}>
-        <span className={styles.icon}>{game?.label}</span>
+          <span className={styles.icon}>{game?.label}</span>
           <p className={styles.betLine}>
             {bet.amount} {origSymbol} × {bet.coefficient}
           </p>

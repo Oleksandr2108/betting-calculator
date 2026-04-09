@@ -8,12 +8,12 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { useRef, useState } from "react";
-import { useSpring } from "motion/react";
+import { useState } from "react";
 import styles from "./ProfitChart.module.css";
 import type { HistoryEntry } from "../../hooks/useBetCalculator";
 import { CURRENCIES } from "../../constants/currencies";
 import { GAME_TYPES } from "../../constants/gameTypes";
+import { convertCurrency } from "../../utils/currency";
 
 interface ProfitChartProps {
   history: HistoryEntry[];
@@ -59,14 +59,6 @@ const HatchedPattern = () => (
   </pattern>
 );
 
-function convert(amount: number, fromCode: string, toCode: string): number {
-  const from = CURRENCIES.find((c) => c.code === fromCode);
-  const to = CURRENCIES.find((c) => c.code === toCode);
-  if (!from || !to) return amount;
-  const inUah = amount / from.rate;
-  return inUah * to.rate;
-}
-
 const CustomTooltip = ({
   active,
   payload,
@@ -95,7 +87,6 @@ const ProfitChart = ({
   displayCurrency = "UAH",
   onCurrencyChange,
 }: ProfitChartProps) => {
-  const chartRef = useRef<HTMLDivElement>(null);
   const [localCurrency, setLocalCurrency] = useState(displayCurrency);
   const [isHovering, setIsHovering] = useState(false);
 
@@ -111,7 +102,7 @@ const ProfitChart = ({
   const data = [...history].reverse().map((entry, index) => {
     const game = GAME_TYPES.find((g) => g.value === entry.gameType);
     const originalCurrency = entry.currency ?? "UAH";
-    const convertedProfit = convert(
+    const convertedProfit = convertCurrency(
       entry.profit,
       originalCurrency,
       activeCurrency,
@@ -123,11 +114,16 @@ const ProfitChart = ({
   });
 
   const totalProfit = data.reduce((sum, d) => sum + d.profit, 0);
-  const lastProfit = data[data.length - 1]?.profit ?? 0;
+
   const isPositive = totalProfit >= 0;
 
-  const springX = useSpring(0, { damping: 30, stiffness: 100 });
-  const springY = useSpring(lastProfit, { damping: 10, stiffness: 10 });
+  // Calculate min and max for Y-axis domain with padding
+  const profits = data.map((d) => d.profit);
+  const minProfit = Math.min(...profits);
+  const maxProfit = Math.max(...profits);
+  const range = maxProfit - minProfit;
+  const padding = range === 0 ? Math.abs(maxProfit) * 0.1 || 1 : range * 0.05; // Handle case where all values are the same
+  const yAxisDomain = [minProfit - padding, maxProfit + padding];
 
   if (history.length === 0) return null;
 
@@ -160,36 +156,19 @@ const ProfitChart = ({
           </span>
         </div>
       </div>
-      <div
-        className={styles.chartContainer}
-        ref={chartRef}
-      >
+      <div className={styles.chartContainer}>
         <ResponsiveContainer
           width="100%"
           height="100%"
         >
           <AreaChart
-            className="overflow-visible"
             accessibilityLayer
             data={data}
-            onMouseMove={(state) => {
-              const x = state.activeCoordinate?.x;
-              const dataValue =
-                state.activeTooltipIndex !== null &&
-                state.activeTooltipIndex !== undefined &&
-                typeof state.activeTooltipIndex === "number"
-                  ? data[state.activeTooltipIndex]?.profit
-                  : undefined;
-              if (x && dataValue !== undefined) {
-                setIsHovering(true);
-                springX.set(x);
-                springY.set(dataValue);
-              }
+            onMouseMove={() => {
+              setIsHovering(true);
             }}
             onMouseLeave={() => {
               setIsHovering(false);
-              springX.set(chartRef.current?.getBoundingClientRect().width || 0);
-              springY.jump(lastProfit);
             }}
             margin={{ top: 5, right: 12, left: -10, bottom: 0 }}
           >
@@ -211,6 +190,7 @@ const ProfitChart = ({
               tick={{ fontSize: 10 }}
               tickFormatter={(v) => `${v}`}
               width={65}
+              domain={yAxisDomain}
             />
             <Tooltip
               cursor={false}
@@ -246,7 +226,7 @@ const ProfitChart = ({
             </defs>
             <Area
               dataKey="profit"
-              type="natural"
+              type="monotone"
               fill={
                 isHovering ? "url(#hatched-profit)" : "url(#gradient-profit)"
               }
@@ -256,7 +236,7 @@ const ProfitChart = ({
             />
             <Area
               dataKey="profit"
-              type="natural"
+              type='monotone'
               fill="none"
               stroke="hsl(142, 71%, 45%)"
               strokeOpacity={0.1}

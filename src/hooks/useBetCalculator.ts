@@ -29,6 +29,35 @@ export interface HistoryEntry {
   currency: string;
 }
 
+function isHistoryEntry(value: unknown): value is HistoryEntry {
+  if (!value || typeof value !== "object") return false;
+
+  const entry = value as Record<string, unknown>;
+  return (
+    typeof entry.id === "number" &&
+    typeof entry.date === "string" &&
+    typeof entry.amount === "number" &&
+    typeof entry.coefficient === "number" &&
+    typeof entry.gameType === "string" &&
+    typeof entry.potentialWin === "number" &&
+    typeof entry.profit === "number" &&
+    typeof entry.currency === "string"
+  );
+}
+
+function loadHistory(): HistoryEntry[] {
+  const saved = localStorage.getItem("betHistory");
+  if (!saved) return [];
+
+  try {
+    const parsed = JSON.parse(saved);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(isHistoryEntry);
+  } catch {
+    return [];
+  }
+}
+
 export function useBetCalculator() {
   const [formData, setFormData] = useState<FormData>({
     betAmount: "",
@@ -39,10 +68,7 @@ export function useBetCalculator() {
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const [history, setHistory] = useState<HistoryEntry[]>(() => {
-    const saved = localStorage.getItem("betHistory");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [history, setHistory] = useState<HistoryEntry[]>(loadHistory);
   useEffect(() => {
     localStorage.setItem("betHistory", JSON.stringify(history));
   }, [history]);
@@ -93,7 +119,7 @@ export function useBetCalculator() {
     const now = new Date();
     const entry: HistoryEntry = {
       id: Date.now(),
-      date: now.toLocaleString("uk-UA", {
+      date: now.toLocaleString("en-US", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",

@@ -46,7 +46,6 @@ function App() {
               <BetHistory
                 history={history}
                 onClear={clearHistory}
-                currencySymbol={currencySymbol}
               />
               <ProfitChart history={history} />
             </div>

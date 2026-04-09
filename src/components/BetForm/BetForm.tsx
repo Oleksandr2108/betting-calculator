@@ -13,22 +13,35 @@ interface BetFormProps {
 }
 
 const BetForm = ({ formData, errors, onChange, onSubmit }: BetFormProps) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit();
+  };
+
   return (
-    <div className={styles.card}>
-      <h2 className={styles.heading}>
-        Betting options
-      </h2>
+    <form
+      className={styles.card}
+      onSubmit={handleFormSubmit}
+    >
+      <h2 className={styles.heading}>Betting options</h2>
 
       <div className={styles.fieldGroup}>
         {/* Bet Amount */}
         <div>
-          <label className={styles.label}>Bet Amount</label>
+          <label
+            htmlFor="betAmount"
+            className={styles.label}
+          >
+            Bet Amount
+          </label>
           <input
+            id="betAmount"
             type="number"
             name="betAmount"
             value={formData.betAmount}
             onChange={onChange}
             placeholder="Enter bet amount..."
+            min={1}
             className={`${styles.input} ${errors.betAmount ? styles.inputError : ""}`}
           />
           {errors.betAmount && (
@@ -38,8 +51,14 @@ const BetForm = ({ formData, errors, onChange, onSubmit }: BetFormProps) => {
 
         {/* Coefficient */}
         <div>
-          <label className={styles.label}>Coefficient</label>
+          <label
+            htmlFor="coefficient"
+            className={styles.label}
+          >
+            Coefficient
+          </label>
           <input
+            id="coefficient"
             type="number"
             name="coefficient"
             value={formData.coefficient}
@@ -55,8 +74,14 @@ const BetForm = ({ formData, errors, onChange, onSubmit }: BetFormProps) => {
 
         {/* Game Type */}
         <div>
-          <label className={styles.label}>Game Type</label>
+          <label
+            htmlFor="gameType"
+            className={styles.label}
+          >
+            Game Type
+          </label>
           <select
+            id="gameType"
             name="gameType"
             value={formData.gameType}
             onChange={onChange}
@@ -79,8 +104,14 @@ const BetForm = ({ formData, errors, onChange, onSubmit }: BetFormProps) => {
 
         {/* Currency */}
         <div>
-          <label className={styles.label}>Currency</label>
+          <label
+            htmlFor="currency"
+            className={styles.label}
+          >
+            Currency
+          </label>
           <select
+            id="currency"
             name="currency"
             value={formData.currency}
             onChange={onChange}
@@ -98,13 +129,13 @@ const BetForm = ({ formData, errors, onChange, onSubmit }: BetFormProps) => {
         </div>
 
         <button
-          onClick={onSubmit}
+          type="submit"
           className={styles.submitButton}
         >
           Calculate ✨
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
