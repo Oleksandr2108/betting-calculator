@@ -1,73 +1,100 @@
-# React + TypeScript + Vite
+# 🎰 Betting Calculator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A convenient web application for calculating potential betting winnings.
+It allows you to quickly calculate profit, saves calculation history,
+and visualizes profit dynamics on a chart.
 
-Currently, two official plugins are available:
+![Main screen](public/screenshots/main-dark.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 📝 Bet Calculation Form
 
-## Expanding the ESLint configuration
+- Input of **bet amount** (up to 100,000)
+- Input of **odds** (from 1.01 to 1000)
+- Selection of **game type**: ⚽ Football, 🏀 Basketball, 🎾 Tennis,
+  🎰 Slots, 🃏 Poker, 🎲 Roulette
+- Selection of **currency**: ₴ UAH, \$ USD, € EUR
+- Validation of all fields with error messages
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 📊 Calculation Result
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Display of **potential winnings** and **net profit**
+- Instant recalculation when parameters change
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 📋 Bet History
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Storage of the **last 5 calculations**
+- Data is stored in **localStorage** (persists after page reload)
+- Currency conversion in the history list
+- Ability to **clear** history
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 📈 Profit Chart
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Visualization of profit dynamics using an **Area Chart**
+- Built-in **currency switcher** (UAH / USD / EUR) with automatic
+  conversion
+- Display of total amount and growth
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+![Chart and result](public/screenshots/chart-dark.png)
+
+### 🌗 Dark / Light Theme
+
+- Theme switcher in the top right corner
+- Theme preference is saved between sessions
+
+---
+
+## 🛠 Technologies
+
+Technology Purpose
+
+---
+
+**React 18** UI framework
+**TypeScript** Typing
+**Vite 5** Build tool & dev server
+**Tailwind CSS** Styling
+**CSS Modules** Scoped component styles
+**Recharts** Charts
+**React Router** Routing
+**Vitest** Testing
+
+---
+
+## 📁 Project Structure
+
+    src/
+    ├── components/
+    │   ├── BetForm.tsx
+    │   ├── BetResult.tsx
+    │   ├── BetHistory.tsx
+    │   ├── BetHistoryItem.tsx
+    │   ├── ProfitChart.tsx
+    │   └── ThemeToggle.tsx
+    ├── constants/
+    │   ├── currencies.ts
+    │   └── gameTypes.ts
+    ├── hooks/
+    │   └── useBetCalculator.ts
+    ├── pages/
+    │   └── Index.tsx
+    └── test/
+        └── betCalculator.test.ts
+
+---
+
+## 🚀 Run
+
+    npm install
+    npm run dev
+    npm run test
+    npm run build
+
+---
+
+## 📄 License
+
+MIT

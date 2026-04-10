@@ -1,0 +1,72 @@
+@import "../../styles/shared.css";
+
+.resultContent {
+  animation: slideUp 0.3s ease-out;
+}
+
+.gameInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.gameIcon {
+  font-size: 1.125rem;
+}
+
+.gameLabel {
+  font-weight: 500;
+}
+
+.resultBox {
+  background-color: hsl(var(--muted));
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.resultRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resultLabel {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.resultWin {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: hsl(var(--card-foreground));
+}
+
+.divider {
+  height: 1px;
+  background-color: hsl(var(--border));
+  margin: 0.75rem 0;
+}
+
+.resultProfit {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: hsl(var(--success));
+}
+
+.placeholder {
+  text-align: center;
+  padding: 2rem 0;
+  color: hsl(var(--muted-foreground));
+}
+
+.placeholderIcon {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.placeholderText {
+  font-size: 0.875rem;
+}
